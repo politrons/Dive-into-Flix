@@ -16,3 +16,5 @@ def listMonad():List[String]=
     List.map(word -> String.toUpperCase(word)) |>
     List.flatMap(word -> word :: "!" :: Nil) |>
     List.filter(word -> String.length(word) > 3) 
+
+    

@@ -7,6 +7,6 @@ def main(_args: Array[String]): Int32 & Impure =
     println("ListMonad:${listMonad()}");
     // Collections
     //-------------
-    println("List:${listFind()}");
-    println("Map:${mapType(1)} ${mapType(2)} ${mapType(3)}");
+    println("List:${listFeatures()}");
+    println("Map:${mapFeatures(1)} ${mapFeatures(2)} ${mapFeatures(3)}");
     0 // exit code
