@@ -7,4 +7,5 @@ def main(_args: Array[String]): Int32 & Impure =
     // Collections
     //-------------
     println(listType());
+    println("${mapType(1)} ${mapType(2)} ${mapType(3)}");
     0 // exit code
