@@ -4,7 +4,7 @@ def listFeatures():String=
     let l:List[String] = "Hello" :: "World" :: Nil;
     let newList = List.append(l, "!!!" :: Nil);
     let upperList = List.map(word -> String.toUpperCase(word), newList);
-    let maybeValue = List.find(word  -> word == "Hello", upperList);
+    let maybeValue = List.find(word  -> word == "HELLO", upperList);
     match  maybeValue {
         case Some(value) => value
         case None    => bug!("The value of `key` must exist.")

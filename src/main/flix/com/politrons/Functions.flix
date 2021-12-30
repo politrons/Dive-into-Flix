@@ -17,4 +17,15 @@ def listMonad():List[String]=
     List.flatMap(word -> word :: "!" :: Nil) |>
     List.filter(word -> String.length(word) > 3) 
 
+// Just like in Haskell, we can have do-notation pipline, and have sugar syntax 
+// with [flatMap] which extract each value to make composition, to avoid
+// flatMap -> flatMap -> flatMap
+def doNotation():Option[String]=
+    use Option.flatMap;
+    let* value1 = Some("hello");
+    let* value2 = Some("world");
+    let* value3 = Some("!!!");
+    Some(value1 + value2 + value3)
+    /// flatMap(x -> flatMap(y -> Some(x + " " + y), maybe2), maybe1)
+
     
