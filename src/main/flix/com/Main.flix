@@ -4,6 +4,7 @@ def main(_args: Array[String]): Int32 & Impure =
     println(upperFunc("hello world"));
     println(higherOrderFirstClass(1981, n -> "${(n * 100)}"));
     println(higherOrder()("hello"));
+    println("ListMonad:${listMonad()}");
     // Collections
     //-------------
     println("List:${listFind()}");
