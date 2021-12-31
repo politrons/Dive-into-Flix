@@ -1,5 +1,7 @@
-
 //List are just created usig sugar syntax [element :: Nil] 
+// For all operators, Flix use same static factory syntax like Golang,
+// where each collection it contains all operator and then you pass as argument the 
+// instance of the collection [List.map(function, collection)]
 def listFeatures():String=
     let l:List[String] = "Hello" :: "World" :: Nil;
     let newList = List.append(l, "!!!" :: Nil);

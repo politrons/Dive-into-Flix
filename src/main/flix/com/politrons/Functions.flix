@@ -26,6 +26,14 @@ def doNotation():Option[String]=
     let* value2 = Some("world");
     let* value3 = Some("!!!");
     Some(value1 + value2 + value3)
-    /// flatMap(x -> flatMap(y -> Some(x + " " + y), maybe2), maybe1)
+    /// flatMap(x -> flatMap(y -> Some(x + " " + y), maybe2), maybe1) 
 
-    
+def foldLeftFeature():String=
+    List.foldLeft((acc, next) -> "${acc}-${next}", //Function with next element of collection and accumulator
+     "#",//Init value
+    1 :: 2 :: 3 :: Nil) //Collection to iterate
+
+def foldRightFeature():String=
+    List.foldRight((next, acc) -> "${next}-${acc}", //Function with next element of collection and accumulator
+     "#",//Init value
+    "hello" :: "functional" :: "world" :: Nil) //Collection to iterate
