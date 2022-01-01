@@ -11,9 +11,24 @@ def optionMonad():Unit & Impure =
 
 def resultMonad():Unit & Impure=
     let resultValue = Ok("Hello try monad");
-    let newResult = resultValue |>
+    let value = resultValue |>
                     Result.map(v -> String.toLowerCase(v)) |>
                     Result.flatMap(v -> Ok(v + "!!!")) |>
                     Result.foldLeft((acc, next) -> String.toUpperCase(acc + next), "" );
-    println("Try Moand Result:${newResult}")                
+    println("Try Moand Result:${value}")                
                     
+def resultErrMonad():Unit & Impure=
+    let resultValue = Err("Error Channel");
+    match resultValue {
+        case Ok(value) => println(value)
+        case Err(cause) => println(cause)
+    }
+
+
+def listMonad():Unit & Impure=
+    let listMonad = "Hello" :: "List" :: "monad" :: Nil;
+    let value = listMonad |>
+                    List.map(v -> String.toLowerCase(v)) |>
+                    List.flatMap(v -> v :: "!!!":: Nil) |>
+                    List.foldLeft((acc, next) -> String.toUpperCase(acc + next), "" );
+    println("List Moand Result:${value}")     
