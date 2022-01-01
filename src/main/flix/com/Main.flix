@@ -15,4 +15,8 @@ def main(_args: Array[String]): Int32 & Impure =
     //-------------
     println("List:${listFeatures()}");
     println("Map:${mapFeatures(1)} ${mapFeatures(2)} ${mapFeatures(3)}");
+    // Monads
+    //-------------
+    optionMonad();
+    resultMonad();
     0 // exit code
