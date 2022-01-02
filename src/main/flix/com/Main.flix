@@ -26,5 +26,5 @@ def main(_args: Array[String]): Int32 & Impure =
     // Namespace
     //-------------
     login();
-    /// println(MyMonad.flatMap( str -> Some(String.toUpperCase(str)), Some("hello custom monad world!!!")));
+    println(MyMonad.flat( str -> Some(String.toUpperCase(str)), Some("hello custom monad world!!!")));
     0 // exit code
