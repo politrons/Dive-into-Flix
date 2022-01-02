@@ -22,4 +22,8 @@ def main(_args: Array[String]): Int32 & Impure =
     resultMonad();
     resultErrMonad();
     listMonad();
+
+    // Namespace
+    //-------------
+    login();
     0 // exit code
