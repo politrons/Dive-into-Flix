@@ -1,3 +1,5 @@
+// Monads
+//---------
 def optionMonad():Unit & Impure =
     let maybeValue = Some("hello");
     let newMaybeValue = maybeValue |>
@@ -34,40 +36,48 @@ def listMonad():Unit & Impure=
     println("List Moand Result:${value}")    
 
 
+// Type classes
+//--------------
 
-
+//Type class contract that all [instance] must implement.
+// m deifne a function type [Type -> Type] which is impure since it might have
+// side effect [ef]
 pub lawless class MyMonad[m : Type -> Type] with Applicative[m] {
 
-    ///  pub def map(value:a, f:a ->a):a
+    pub def map(f: a -> b & ef, x: m[a]): m[b] & ef
 
      pub def flatMap(f: a -> m[b] & ef, x: m[a]) : m[b] & ef
 
-    ///  pub def flatMap(value:a, f:a -> MyMonad): MyMonad[a]
-
 }
 
+//[Option] implementation for [MyMonad] 
 instance MyMonad[Option] {
 
-    pub def flatMap(f: a -> Option[b] & ef, x : Option[a]) : Option[b] & ef = Option.flatMap(f, x)
+    pub def map(f: a -> b & ef, x: Option[a]): Option[b] & ef = Option.map(f,x)
 
+    pub def flatMap(f: a -> Option[b] & ef, x : Option[a]) : Option[b] & ef = Option.flatMap(f, x)
     
 }
 
+//[List] implementation for [MyMonad] 
+instance MyMonad[List] {
+
+    pub def map(f: a -> b & ef, x: List[a]): List[b] & ef = List.map(f,x)
+
+    pub def flatMap(f: a -> List[b] & ef, x : List[a]) : List[b] & ef = List.flatMap(f, x)
+    
+}
+
+//We use the namespace to define the DSL which it will be expose to the  user.
+//Since we use the generic 
 namespace MyMonad {
 
-    pub def flat(k: a -> m[b] & ef, x: m[a]): m[b] & ef with MyMonad[m] = flatMap(k, x)
+    pub def transform(f: a -> b & ef, x: m[a]): m[b] & ef with MyMonad[m] = map(f, x)
 
-    /// pub def flatMap(f:String ->OptionMonad[String], input:OptionMonad[String]):OptionMonad[String]= 
-    ///     f("")
+    pub def compose(f: a -> m[b] & ef, x: m[a]): m[b] & ef with MyMonad[m] = flatMap(f, x)
 
 }
 
-/// namespace OptionMonad {
-///     pub def flatMap(f: a -> Option[b] & ef, o: Option[a]): Option[b] & ef = match o {
-///         case None => None
-///         case Some(v) => f(v)
-///     }
-/// }
 
 
    

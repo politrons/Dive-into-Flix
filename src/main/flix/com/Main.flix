@@ -22,9 +22,12 @@ def main(_args: Array[String]): Int32 & Impure =
     resultMonad();
     resultErrMonad();
     listMonad();
+    println(MyMonad.compose( str -> Some(String.toUpperCase(str)), Some("hello custom Option monad world!!!")));
+    println(MyMonad.transform( str -> String.toUpperCase(str), Some("hello custom Option monad world!!!")));
+    println(MyMonad.compose( str -> String.toUpperCase(str) :: Nil, "hello" :: "custom List monad world!!!"::Nil));
+    println(MyMonad.transform( str -> String.toUpperCase(str), "hello" :: "Custom List monad world!!!"::Nil));
 
     // Namespace
     //-------------
     login();
-    println(MyMonad.flat( str -> Some(String.toUpperCase(str)), Some("hello custom monad world!!!")));
     0 // exit code
