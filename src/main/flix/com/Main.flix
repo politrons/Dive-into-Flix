@@ -27,6 +27,10 @@ def main(_args: Array[String]): Int32 & Impure =
     println(MyMonad.compose( str -> String.toUpperCase(str) :: Nil, "hello" :: "custom List monad world!!!"::Nil));
     println(MyMonad.transform( str -> String.toUpperCase(str), "hello" :: "Custom List monad world!!!"::Nil));
 
+    // Type Class
+    //-------------
+    /// println(FreeMonad.trans( str -> String.toUpperCase(str), Suc("hello custom Free monad world!!!")));
+
     // Namespace
     //-------------
     login();

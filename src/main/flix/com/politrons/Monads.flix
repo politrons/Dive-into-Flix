@@ -69,7 +69,8 @@ instance MyMonad[List] {
 }
 
 //We use the namespace to define the DSL which it will be expose to the  user.
-//Since we use the generic 
+//Since we use the generic type of m, the compiler it will infer to which imoplementation
+//The user is using, and in case it has no instance implementation it wont compile.
 namespace MyMonad {
 
     pub def transform(f: a -> b & ef, x: m[a]): m[b] & ef with MyMonad[m] = map(f, x)
