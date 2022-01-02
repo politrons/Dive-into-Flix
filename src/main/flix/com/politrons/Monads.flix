@@ -31,4 +31,28 @@ def listMonad():Unit & Impure=
                     List.map(v -> String.toLowerCase(v)) |>
                     List.flatMap(v -> v :: "!!!":: Nil) |>
                     List.foldLeft((acc, next) -> String.toUpperCase(acc + next), "" );
-    println("List Moand Result:${value}")     
+    println("List Moand Result:${value}")    
+
+
+/// namespace MyMonad {
+
+/// }
+
+/// pub lawless class MyMonad[m : Type -> Type] with Applicative[m] {
+
+///     ///  pub def map(value:a, f:a ->a):a
+
+///     pub def flatMap(f: a -> m[b], x: m[a]) : m[b] 
+
+///     ///  pub def flatMap(value:a, f:a -> MyMonad): MyMonad[a]
+
+/// }
+
+
+/// instance MyMonad[Option] {
+
+///     pub def flatMap(f:String ->Option[String], input:Option[String]):Option[String]=
+///         f("")
+
+/// }
+   
