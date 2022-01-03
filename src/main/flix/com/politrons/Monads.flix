@@ -33,8 +33,7 @@ def listMonad():Unit & Impure=
                     List.map(v -> String.toLowerCase(v)) |>
                     List.flatMap(v -> v :: "!!!":: Nil) |>
                     List.foldLeft((acc, next) -> String.toUpperCase(acc + next), "" );
-    println("List Moand Result:${value}")    
-
+    println("List Moand Result:${value}")     
 
 // Type classes
 //--------------
@@ -69,7 +68,7 @@ instance MyMonad[List] {
 }
 
 
-//[String] implementation for [MyMonad] 
+//[Politrons] implementation for [MyMonad] 
 instance MyMonad[Politrons] {
 
     pub def map(f: a -> b & ef, x: Politrons[a]): Politrons[b] & ef = Politrons.map(f,x)
@@ -89,14 +88,16 @@ namespace MyMonad {
 
 }
 
-//In order to use Monads of type m[a] it´s mandatory this
-//enum has two possible values, so we have [Type -> Type] 
+//In order to use Monads of type m[a] it´s mandatory a enum type with two possible values,
+// so we have [Type -> Type] 
 enum Politrons[a] with ToString{
   case A(a)
   case B
 
 }
 
+//We implement Functor [map] and Monad [flatMap], so it can be used as part of the 
+//implementation of MyMonad
 namespace Politrons {
     pub def map(f: a -> b & ef, o: Politrons[a]): Politrons[b] & ef = match o {
         case B => B
