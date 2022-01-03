@@ -12,3 +12,4 @@ Is this repo useful? Please ⭑Star this repository and share the love.
 * **[Functions](/src/main/flix/com/politrons/Functions.flix)**
 * **[Monads](/src/main/flix/com/politrons/Monads.flix)**
 * **[Types](/src/main/flix/com/politrons/Types.flix)**
+* **[Async/Channels](src/main/flix/com/politrons/Channels.flix)**
