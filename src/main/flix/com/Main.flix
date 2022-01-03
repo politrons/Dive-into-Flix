@@ -26,12 +26,14 @@ def main(_args: Array[String]): Int32 & Impure =
     println(MyMonad.transform( str -> String.toUpperCase(str), Some("hello custom Option monad world!!!")));
     println(MyMonad.compose( str -> String.toUpperCase(str) :: Nil, "hello" :: "custom List monad world!!!"::Nil));
     println(MyMonad.transform( str -> String.toUpperCase(str), "hello" :: "Custom List monad world!!!"::Nil));
-
-    // Type Class
-    //-------------
-    /// println(FreeMonad.trans( str -> String.toUpperCase(str), Suc("hello custom Free monad world!!!")));
+    println(MyMonad.transform( str -> String.toUpperCase(str), A("hello custom Politrons monad world!!!")));
+    println(MyMonad.compose( str -> A(String.toUpperCase(str)) , A("hello custom Politrons monad world!!!")));
 
     // Namespace
     //-------------
     login();
+
+    //Async -Channels
+    //---------------
+    println(asyncProcess("Hello async world"));
     0 // exit code

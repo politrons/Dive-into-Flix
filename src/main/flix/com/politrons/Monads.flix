@@ -42,7 +42,7 @@ def listMonad():Unit & Impure=
 //Type class contract that all [instance] must implement.
 // m deifne a function type [Type -> Type] which is impure since it might have
 // side effect [ef]
-pub lawless class MyMonad[m : Type -> Type] with Applicative[m] {
+pub lawless class MyMonad[m : Type -> Type] {//with Applicative[m] {
 
     pub def map(f: a -> b & ef, x: m[a]): m[b] & ef
 
@@ -68,6 +68,16 @@ instance MyMonad[List] {
     
 }
 
+
+//[String] implementation for [MyMonad] 
+instance MyMonad[Politrons] {
+
+    pub def map(f: a -> b & ef, x: Politrons[a]): Politrons[b] & ef = Politrons.map(f,x)
+
+    pub def flatMap(f: a -> Politrons[b] & ef, x : Politrons[a]) : Politrons[b] & ef = Politrons.flatMap(f, x)
+    
+}
+
 //We use the namespace to define the DSL which it will be expose to the  user.
 //Since we use the generic type of m, the compiler it will infer to which imoplementation
 //The user is using, and in case it has no instance implementation it wont compile.
@@ -78,6 +88,27 @@ namespace MyMonad {
     pub def compose(f: a -> m[b] & ef, x: m[a]): m[b] & ef with MyMonad[m] = flatMap(f, x)
 
 }
+
+//In order to use Monads of type m[a] it´s mandatory this
+//enum has two possible values, so we have [Type -> Type] 
+enum Politrons[a] with ToString{
+  case A(a)
+  case B
+
+}
+
+namespace Politrons {
+    pub def map(f: a -> b & ef, o: Politrons[a]): Politrons[b] & ef = match o {
+        case B => B
+        case A(v) => A(f(v))
+    }
+
+    pub def flatMap(f: a -> Politrons[b] & ef, o: Politrons[a]): Politrons[b] & ef =  match o {
+        case B => B
+        case A(v) => f(v)
+    }
+}
+
 
 
 
