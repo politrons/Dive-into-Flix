@@ -41,7 +41,7 @@ def listMonad():Unit & Impure=
 //Type class contract that all [instance] must implement.
 // m deifne a function type [Type -> Type] which is impure since it might have
 // side effect [ef]
-pub lawless class MyMonad[m : Type -> Type] {//with Applicative[m] {
+pub lawless class MyMonad[m : Type -> Type]{
 
     pub def map(f: a -> b & ef, x: m[a]): m[b] & ef
 
