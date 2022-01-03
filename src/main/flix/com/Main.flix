@@ -36,4 +36,5 @@ def main(_args: Array[String]): Int32 & Impure =
     //Async -Channels
     //---------------
     println(asyncProcess("Hello async world"));
+    channelFeature();    
     0 // exit code
