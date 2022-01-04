@@ -1,3 +1,18 @@
+//Supplier function where we dont expect any input, and we produce an output
+def supplierFunc():Unit & Impure=
+    let supplierFunc :Unit -> String = () -> "Hello supplier function"; 
+    println(supplierFunc())
+
+//Consumer function where we expect an input, and we dont produce any output
+def consumerFunc():Unit & Impure=
+    let consumerFunc : String -> Unit & Impure = a -> println(a); 
+    println(consumerFunc("Hello consumer world"))
+
+//Predicate function where we expect an input, and we dont produce any output
+def predicateFunc():Unit & Impure=
+    let predicateFunc : Int32 -> Bool = a -> a > 5; 
+    println(predicateFunc(1981))    
+
 //A regular function receive an argument A and return a value B after apply some logic 
 def upperFunc(x: String): String = String.toUpperCase(x) + "!!!"
 

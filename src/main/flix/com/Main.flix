@@ -1,6 +1,9 @@
 def main(_args: Array[String]): Int32 & Impure =
     //Functions
     //-----------
+    supplierFunc();
+    consumerFunc();
+    predicateFunc();
     println(upperFunc("hello world"));
     println(higherOrderFirstClass(1981, n -> "${(n * 100)}"));
     println(higherOrder()("hello"));
@@ -39,4 +42,8 @@ def main(_args: Array[String]): Int32 & Impure =
     channelFeature();   
     parallelCompurting(); 
     compositionAsync();
+
+    //Future
+    //-------
+    runFuture();
     0 // exit code
