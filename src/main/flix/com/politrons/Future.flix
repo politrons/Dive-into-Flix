@@ -43,8 +43,6 @@ enum Future[a] with ToString{
   case Future(a)
 }
 
-//We implement Functor [map] and Monad [flatMap], so it can be used as part of the 
-//implementation of MyMonad
 namespace Future {
 
     //Supplier function to run the function in another thread, and return a Future with a Channel[Result[b]]
@@ -64,13 +62,12 @@ namespace Future {
     //We block channel until the message arrive, and then depending the result type
     //We return the specific result.
     pub def get(o: Future[Channel[Result[b,t]]]): Result[b,t] & Impure = 
-        let result: Result[b,t] = match o {
-            case Future(channel) => <- channel
-        };
-        match result {
-            case Ok(v) => Ok(v)
-            case Err(t) => Err(t)
-        }  
+         match o {
+            case Future(channel) => match <- channel {
+                case Ok(v) => Ok(v)
+                case Err(t) => Err(t)
+            }
+        }
 
     //We create a function that expect two Consumer functions, one for the success channel, and another for failure.
     pub def onComplete(f: b -> Unit & ef,e: t -> Unit & ef, o: Future[Channel[Result[b,t]]]): Unit & Impure = 
