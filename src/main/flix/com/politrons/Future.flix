@@ -8,8 +8,8 @@ namespace Future {
 
     //Supplier function to run the function in another thread, and return a Future with a Channel[Result[b]]
     //So the execution run in another thread just like in Scala
-    pub def run(f: Unit -> b & ef): Future[Channel[Result[b]]] & Impure=
-        let chann:Channel[Result[b]] = chan Result[b] 0;
+    pub def run(f: Unit -> b & ef): Future[Channel[Result[t,b]]] & Impure=
+        let chann:Channel[Result[b,t]] = chan Result[b,t] 0;
         spawn try {
             chann <- Ok(f())
         } catch {
@@ -20,7 +20,7 @@ namespace Future {
         Future(chann)
 
     //Blocking function to obtain future result.
-    pub def get(o: Future[Channel[Result[b]]]): Result[b] & Impure = match o {
+    pub def get(o: Future[Channel[Result[b,t]]]): Result[t,b] & Impure = match o {
         case Future(Ok(v)) => Ok(v)
         case Future(Err(t)) => Err(t)
         /// case Wrong(t) => Wrong(t)
@@ -46,6 +46,6 @@ namespace Future {
 }
 
 def runFuture():Unit & Impure=
-    let future:Future[Channel[Result[String]]] =Future.run(()-> "hello future world");
-    let result:Result[String] = Future.get(future);
+    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world");
+    let result:Result[String,String] = Future.get(future);
     println(result)
