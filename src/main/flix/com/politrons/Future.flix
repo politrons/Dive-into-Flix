@@ -82,10 +82,16 @@ namespace Future {
         };
         Future(newChann)
 
-    /// pub def flatMap(f: a -> Future[b,t] & ef, o: Future[a,t]): Future[b,t] & ef =  match o {
-    ///     case Wrong(t) => Wrong(t)
-    ///     case Good(v) => f(v)
-    /// }
+    pub def flatMap(f: a -> Future[Channel[Result[b,t]]] & ef, o: Future[Channel[Result[a,t]]]): Future[Channel[Result[b,t]]] & Impure = 
+        let oldChannel: Channel[Result[a,t]] = match o {
+            case Future(channel) => channel
+        };
+        match <- oldChannel {
+            case Ok(v) => f(v)
+            case Err(t) => 
+                let errChann:Channel[Result[b,t]] = chan Result[b,t] 0;
+                Future(errChann <- Err(t))
+        }
 }
 
 
