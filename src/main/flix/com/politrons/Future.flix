@@ -2,7 +2,8 @@
 //-------
 def runFuture():Unit & Impure=
     getFuture();
-    onCallbackFuture()
+    onCallbackFuture();
+    mapFuture()
 
 def getFuture():Unit & Impure=
     import java.lang.Thread:currentThread();
@@ -15,6 +16,17 @@ def onCallbackFuture():Unit & Impure=
     let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world" );
     Future.onComplete(v -> println("Success result:${String.toUpperCase(v)}"),
                       t -> println("Error result:${String.toUpperCase(t)}"), future)
+
+def mapFuture():Unit & Impure=
+    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world" );
+    let newFuture = future |>
+    Future.map(v -> String.toUpperCase(v)) |>
+    Future.map(v -> "${v} using map operator for transformation") |>
+    Future.map(v -> String.toUpperCase(v)); 
+    let result:Result[String,String] = Future.get(newFuture);
+    println(result)
+// Implementation
+//---------------
 
 enum Future[a] with ToString{
   case Future(a)
@@ -59,10 +71,16 @@ namespace Future {
             case Err(t) => e(t)
         }
 
-    /// pub def map(f: a -> b & ef, o: Future[a,t]): Future[b,t] & ef = match o {
-    ///     case Wrong(t) => Wrong(t)
-    ///     case Good(v) => Good(f(v))
-    /// }
+    pub def map(f: a -> b & ef, o: Future[Channel[Result[a,t]]]): Future[Channel[Result[b,t]]] & Impure = 
+        let newChann:Channel[Result[b,t]] = chan Result[b,t] 0;
+        let oldChannel: Channel[Result[a,t]] = match o {
+            case Future(channel) =>channel
+        };
+        spawn match <- oldChannel {
+            case Ok(v) => newChann <- Ok(f(v))
+            case Err(t) => newChann <- Err(t)
+        };
+        Future(newChann)
 
     /// pub def flatMap(f: a -> Future[b,t] & ef, o: Future[a,t]): Future[b,t] & ef =  match o {
     ///     case Wrong(t) => Wrong(t)
