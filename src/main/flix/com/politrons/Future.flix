@@ -28,7 +28,9 @@ def mapFuture():Unit & Impure=
     println(result)
 
 def flatMapFuture():Unit & Impure=
-    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world" );
+    import java.lang.Thread:currentThread();
+    import java.lang.Thread.getName();
+    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world in ${getName(currentThread())}" );
     let newFuture = future |>
     Future.flatMap(v -> Future.run(()->String.toUpperCase(v))) |>
     Future.flatMap(v -> Future.run(()->"${v} using flatMap operator for composition")) |>
