@@ -5,7 +5,9 @@ def runFuture():Unit & Impure=
     onCallbackFuture()
 
 def getFuture():Unit & Impure=
-    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world" );
+    import java.lang.Thread:currentThread();
+    import java.lang.Thread.getName();
+    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world in Thread ${getName(currentThread())}" );
     let result:Result[String,String] = Future.get(future);
     println(result)
 
