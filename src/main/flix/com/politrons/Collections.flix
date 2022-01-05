@@ -1,3 +1,9 @@
+// Collections
+//-------------
+def runCollections():Unit & Impure=
+    println("List:${listFeatures()}");
+    println("Map:${mapFeatures(1)} ${mapFeatures(2)} ${mapFeatures(3)}")
+
 //List are just created usig sugar syntax [element :: Nil] 
 // For all operators, Flix use same static factory syntax like Golang,
 // where each collection it contains all operator and then you pass as argument the 

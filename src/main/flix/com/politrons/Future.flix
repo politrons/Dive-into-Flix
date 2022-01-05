@@ -1,3 +1,10 @@
+//Future
+//-------
+def runFuture():Unit & Impure=
+    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world" );
+    let result:Result[String,String] = Future.get(future);
+    println(result)
+
 enum Future[a] with ToString{
   case Future(a)
 }
@@ -27,8 +34,6 @@ namespace Future {
         match result {
             case Ok(v) => Ok(v)
             case Err(t) => Err(t)
-            /// case Wrong(t) => Wrong(t)
-            /// case Good(channel) => Good(<- channel)
         }  
 
     /// pub def onComplete(f: b -> b & ef , e: t -> b & ef, o: Future[Channel[b],t]): Unit & Impure = match o {
@@ -49,7 +54,4 @@ namespace Future {
     /// }
 }
 
-def runFuture():Unit & Impure=
-    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world");
-    let result:Result[String,String] = Future.get(future);
-    println(result)
+

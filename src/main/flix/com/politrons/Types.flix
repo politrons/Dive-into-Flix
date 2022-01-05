@@ -1,3 +1,8 @@
+// Types
+//-------------
+def runTypes():Unit & Impure=
+    login()
+    
 //Enum type provide the possibility to create a limit type of values
 enum Sex with ToString {
     case Male

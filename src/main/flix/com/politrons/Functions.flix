@@ -1,3 +1,19 @@
+//Functions
+//-----------
+def runFunctions():Unit & Impure =
+    supplierFunc();
+    consumerFunc();
+    predicateFunc();
+    println(upperFunc("hello world"));
+    println(higherOrderFirstClass(1981, n -> "${(n * 100)}"));
+    println(higherOrder()("hello"));
+    println("Compose functions:${functionalComposition()}");
+    println("Pipeline:${pipelineFunctions()}");
+    println("DoNotation:${doNotation()}");
+    println("FoldLeft:${foldLeftFeature()}");
+    println("FoldRight:${foldRightFeature()}");
+    println("Currying:${curryingFunction()}")
+
 //Supplier function where we dont expect any input, and we produce an output
 def supplierFunc():Unit & Impure=
     let supplierFunc :Unit -> String = () -> "Hello supplier function"; 

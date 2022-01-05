@@ -1,3 +1,10 @@
+//Async -Channels
+//---------------
+def runAsyncChannel():Unit & Impure=
+     println(asyncProcess("Hello async world"));
+     channelFeature();   
+     parallelCompurting(); 
+     compositionAsync()
 
 //Using [spawn] operator, we run the function in another 
 // green thread.
