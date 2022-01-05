@@ -36,6 +36,8 @@ namespace Future {
         Future(chann)
 
     //Blocking function to obtain future result.
+    //We block channel until the message arrive, and then depending the result type
+    //We return the specific result.
     pub def get(o: Future[Channel[Result[b,t]]]): Result[b,t] & Impure = 
         let result: Result[b,t] = match o {
             case Future(channel) => <- channel
@@ -45,6 +47,7 @@ namespace Future {
             case Err(t) => Err(t)
         }  
 
+    //We create a function that expect two Consumer functions, one for the success channel, and another for failure.
     pub def onComplete(f: b -> Unit & ef,e: t -> Unit & ef, o: Future[Channel[Result[b,t]]]): Unit & Impure = 
         let result: Result[b,t] = match o {
             case Future(channel) => <- channel
