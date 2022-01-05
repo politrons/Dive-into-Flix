@@ -8,7 +8,7 @@ namespace Future {
 
     //Supplier function to run the function in another thread, and return a Future with a Channel[Result[b]]
     //So the execution run in another thread just like in Scala
-    pub def run(f: Unit -> b & ef): Future[Channel[Result[t,b]]] & Impure=
+    pub def run(f: Unit -> b & ef): Future[Channel[Result[b,t]]] & Impure=
         let chann:Channel[Result[b,t]] = chan Result[b,t] 0;
         spawn try {
             chann <- Ok(f())
@@ -20,7 +20,7 @@ namespace Future {
         Future(chann)
 
     //Blocking function to obtain future result.
-    pub def get(o: Future[Channel[Result[b,t]]]): Result[t,b] & Impure = match o {
+    pub def get(o: Future[Channel[Result[b,t]]]): Result[b,t] & Impure = match o {
         case Future(Ok(v)) => Ok(v)
         case Future(Err(t)) => Err(t)
         /// case Wrong(t) => Wrong(t)
