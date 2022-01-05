@@ -20,9 +20,13 @@ namespace Future {
         Future(chann)
 
     //Blocking function to obtain future result.
-    pub def get(o: Future[Channel[Result[b,t]]]): Result[b,t] & Impure = match o {
-        case Future(Ok(v)) => Ok(v)
-        case Future(Err(t)) => Err(t)
+    pub def get(o: Future[Channel[Result[b,t]]]): Result[b,t] & Impure = 
+    let result: Result[b,t] = match o {
+        case Future(channel) => <- channel
+    };
+    match result {
+        case Ok(v) => Ok(v)
+        case Err(t) => Err(t)
         /// case Wrong(t) => Wrong(t)
         /// case Good(channel) => Good(<- channel)
     }  
