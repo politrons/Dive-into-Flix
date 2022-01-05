@@ -3,7 +3,8 @@
 def runFuture():Unit & Impure=
     getFuture();
     onCallbackFuture();
-    mapFuture()
+    mapFuture();
+    flatMapFuture()
 
 def getFuture():Unit & Impure=
     import java.lang.Thread:currentThread();
@@ -25,6 +26,16 @@ def mapFuture():Unit & Impure=
     Future.map(v -> String.toUpperCase(v)); 
     let result:Result[String,String] = Future.get(newFuture);
     println(result)
+
+def flatMapFuture():Unit & Impure=
+    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world" );
+    let newFuture = future |>
+    Future.flatMap(v -> Future.run(()->String.toUpperCase(v))) |>
+    Future.flatMap(v -> Future.run(()->"${v} using flatMap operator for composition")) |>
+    Future.map(v -> String.toUpperCase(v)); 
+    let result:Result[String,String] = Future.get(newFuture);
+    println(result)
+
 // Implementation
 //---------------
 
@@ -63,34 +74,37 @@ namespace Future {
 
     //We create a function that expect two Consumer functions, one for the success channel, and another for failure.
     pub def onComplete(f: b -> Unit & ef,e: t -> Unit & ef, o: Future[Channel[Result[b,t]]]): Unit & Impure = 
-        let result: Result[b,t] = match o {
-            case Future(channel) => <- channel
-        };
-        match result {
-            case Ok(v) => f(v)
-            case Err(t) => e(t)
+        match o {
+            case Future(channel) => match <- channel {
+                case Ok(v) => f(v)
+                case Err(t) => e(t)
+             }
         }
 
+    //[Map] operator allow make a transformation inside the Future monad, creating a new thread and making the transformation
+    //Once the first thread finish. 
+    //This operator works completely async and it will return a Future with the transformation of the body
     pub def map(f: a -> b & ef, o: Future[Channel[Result[a,t]]]): Future[Channel[Result[b,t]]] & Impure = 
         let newChann:Channel[Result[b,t]] = chan Result[b,t] 0;
-        let oldChannel: Channel[Result[a,t]] = match o {
-            case Future(channel) =>channel
-        };
-        spawn match <- oldChannel {
-            case Ok(v) => newChann <- Ok(f(v))
-            case Err(t) => newChann <- Err(t)
+        match o {
+            case Future(channel) => spawn match <- channel {
+                case Ok(v) => newChann <- Ok(f(v))
+                case Err(t) => newChann <- Err(t)
+            }
         };
         Future(newChann)
 
+    //[FlatMap] operator allow make a composition between Futures, once the first thread finish, it pass the output to allow 
+    //composition with the creation of a new Future. 
+    //This operator works completely async and it will return a Future with the transformation of the body
     pub def flatMap(f: a -> Future[Channel[Result[b,t]]] & ef, o: Future[Channel[Result[a,t]]]): Future[Channel[Result[b,t]]] & Impure = 
-        let oldChannel: Channel[Result[a,t]] = match o {
-            case Future(channel) => channel
-        };
-        match <- oldChannel {
-            case Ok(v) => f(v)
-            case Err(t) => 
-                let errChann:Channel[Result[b,t]] = chan Result[b,t] 0;
-                Future(errChann <- Err(t))
+        match o {
+            case Future(channel) => match <- channel {
+                case Ok(v) => f(v)
+                case Err(t) => 
+                    let errChann:Channel[Result[b,t]] = chan Result[b,t] 0;
+                    Future(errChann <- Err(t))
+            }
         }
 }
 
