@@ -46,6 +46,6 @@ namespace Future {
 }
 
 def runFuture():Unit & Impure=
-    let future:Future[Channel[String], String] =Future.run(()-> "hello future world");
-    let result:Future[String, String] = Future.get(future);
+    let future:Future[Channel[Result[String]]] =Future.run(()-> "hello future world");
+    let result:Result[String] = Future.get(future);
     println(result)
