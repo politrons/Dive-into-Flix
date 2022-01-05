@@ -1,8 +1,8 @@
-def main(_args: Array[String]): Int32 & Impure =
+def main(_args: Array[String]): Int & Impure =
     runFunctions();
     runCollections();
     runMonads();
     runTypes();
     runAsyncChannel();
     runFuture();
-    0 // exit code
+    0
