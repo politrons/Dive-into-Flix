@@ -21,15 +21,15 @@ namespace Future {
 
     //Blocking function to obtain future result.
     pub def get(o: Future[Channel[Result[b,t]]]): Result[b,t] & Impure = 
-    let result: Result[b,t] = match o {
-        case Future(channel) => <- channel
-    };
-    match result {
-        case Ok(v) => Ok(v)
-        case Err(t) => Err(t)
-        /// case Wrong(t) => Wrong(t)
-        /// case Good(channel) => Good(<- channel)
-    }  
+        let result: Result[b,t] = match o {
+            case Future(channel) => <- channel
+        };
+        match result {
+            case Ok(v) => Ok(v)
+            case Err(t) => Err(t)
+            /// case Wrong(t) => Wrong(t)
+            /// case Good(channel) => Good(<- channel)
+        }  
 
     /// pub def onComplete(f: b -> b & ef , e: t -> b & ef, o: Future[Channel[b],t]): Unit & Impure = match o {
     ///     case Wrong(t) => Wrong(e(t))
