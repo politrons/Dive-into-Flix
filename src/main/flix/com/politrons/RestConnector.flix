@@ -5,11 +5,8 @@ def runRequest():Unit & Impure =
     let uri:Uri[String,  String] = FlixHttp.setConfig(Uri("www.google.com",""));
     let method:Method[String,Uri[String,  String] ] = FlixHttp.setConfig(Method("get",uri));
     let port:Port[String,Method[String,Uri[String,  String] ]] = FlixHttp.setConfig(Port("80",method));
-    println(port)
-    /// let response = FlixHttp.run(port);
-    /// println(response)
-
-
+    let response = FlixHttp.run(port);
+    println(response)
 
 // Implementation
 //---------------
@@ -72,13 +69,13 @@ namespace FlixHttp {
 
     pub def setConfig(x: m[a,u]): m[a,u] with FlixHttp[m] = set(x)
 
-    /// pub def run(p:Port[Method[Uri[String], String], String]): String =
-    ///    match p {
-    ///         case Port(m, port) => match m {
-    ///             case Method(u, method) => match u {
-    ///                 case Uri(uri) => "Port:${port} Method:${method} Uri:${uri}"
-    ///             }
-    ///         }
-    ///     }
+    pub def run(p:Port[String, Method[String, Uri[String, String]]]): String =
+       match p {
+            case Port(port,m) => match m {
+                case Method(method,u) => match u {
+                    case Uri(uri) => "Port:${port} Method:${method} Uri:${uri}"
+                }
+            }
+        }
 
 }
