@@ -2,9 +2,9 @@
 // -----
 
 def runRequest():Unit & Impure =
-    let uri:Uri[String,  String] = FlixHttp.setConfig("www.google.com", Uri("",""));
-    let method:Method[String,Uri[String,  String] ] = FlixHttp.setConfig("get", Method("",uri));
-    let port:Port[String,Method[String,Uri[String,  String] ]] = FlixHttp.setConfig("80", Port("",method));
+    let uri:Uri[String,  String] = FlixHttp.setConfig(Uri("www.google.com",""));
+    let method:Method[String,Uri[String,  String] ] = FlixHttp.setConfig(Method("get",uri));
+    let port:Port[String,Method[String,Uri[String,  String] ]] = FlixHttp.setConfig(Port("80",method));
     println(port)
     /// let response = FlixHttp.run(port);
     /// println(response)
@@ -19,9 +19,9 @@ enum Uri[uri, u] with ToString {
 
 namespace Uri {
 
-    pub def set(f: b, x: Uri[a, u]): Uri[b, u] =
+    pub def set(x: Uri[a, u]): Uri[a, u] =
         match x {
-            case Uri(_,u) => Uri(f,u)
+            case Uri(a,u) => Uri(a,u)
         }
         
 }
@@ -32,9 +32,9 @@ enum Method[method, uri] with ToString {
 
 namespace Method {
 
-    pub def set(f: b, x: Method[a, u]): Method[b,u] =
+    pub def set(x: Method[a, u]): Method[a,u] =
         match x {
-            case Method(_,u) =>  Method(f,u)
+            case Method(a,u) =>  Method(a,u)
         }
         
 }
@@ -45,41 +45,41 @@ enum Port[method, port] with ToString {
 
 namespace Port {
 
-    pub def set(f: b, x: Port[a, u]): Port[b,u] =
+    pub def set(x: Port[a, u]): Port[a,u] =
         match x {
-            case Port(_,u) =>  Port(f,u)
+            case Port(a,u) =>  Port(a,u)
         }
         
 }
 
 pub lawless class FlixHttp[m : Type -> Type -> Type] {
 
-    pub def set(f:b, x: m[a,u]): m[b,u]
+    pub def set(x: m[a,u]): m[a,u]
 
 }
 
 
 instance FlixHttp[Uri] {
 
-    pub def set(f: b, x: Uri[a,u]): Uri[b,u] = Uri.set(f,x)
+    pub def set(x: Uri[a,u]): Uri[a,u] = Uri.set(x)
   
 } 
 
 instance FlixHttp[Method] {
 
-    pub def set(f: b, x: Method[a,u]): Method[b,u] = Method.set(f,x)
+    pub def set(x: Method[a,u]): Method[a,u] = Method.set(x)
         
 } 
 
 instance FlixHttp[Port] {
 
-    pub def set(f: b, x: Port[a,u]): Port[b,u] = Port.set(f,x)
+    pub def set(x: Port[a,u]): Port[a,u] = Port.set(x)
         
 } 
 
 namespace FlixHttp {
 
-    pub def setConfig(f: b, x: m[a,u]): m[b,u] with FlixHttp[m] = set(f, x)
+    pub def setConfig(x: m[a,u]): m[a,u] with FlixHttp[m] = set(x)
 
     /// pub def run(p:Port[Method[Uri[String], String], String]): String =
     ///    match p {
