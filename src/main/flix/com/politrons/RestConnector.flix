@@ -19,10 +19,7 @@ enum Uri[uri, u] with ToString {
 
 namespace Uri {
 
-    pub def set(x: Uri[a, u]): Uri[a, u] =
-        match x {
-            case Uri(a,u) => Uri(a,u)
-        }
+    pub def set(x: Uri[a, u]): Uri[a, u] = x
         
 }
 
@@ -32,10 +29,7 @@ enum Method[method, uri] with ToString {
 
 namespace Method {
 
-    pub def set(x: Method[a, u]): Method[a,u] =
-        match x {
-            case Method(a,u) =>  Method(a,u)
-        }
+    pub def set(x: Method[a, u]): Method[a,u] = x
         
 }
 
@@ -45,10 +39,7 @@ enum Port[method, port] with ToString {
 
 namespace Port {
 
-    pub def set(x: Port[a, u]): Port[a,u] =
-        match x {
-            case Port(a,u) =>  Port(a,u)
-        }
+    pub def set(x: Port[a, u]): Port[a,u] = x
         
 }
 

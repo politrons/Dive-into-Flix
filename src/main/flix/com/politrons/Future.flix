@@ -7,9 +7,7 @@ def runFuture():Unit & Impure=
     flatMapFuture()
 
 def getFuture():Unit & Impure=
-    import java.lang.Thread:currentThread();
-    import java.lang.Thread.getName();
-    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world in Thread ${getName(currentThread())}" );
+    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world");
     let result:Result[String,String] = Future.get(future);
     println(result)
 
@@ -28,9 +26,7 @@ def mapFuture():Unit & Impure=
     println(result)
 
 def flatMapFuture():Unit & Impure=
-    import java.lang.Thread:currentThread();
-    import java.lang.Thread.getName();
-    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world in ${getName(currentThread())}" );
+    let future:Future[Channel[Result[String,String]]] =Future.run(()-> "hello future world" );
     let newFuture = future |>
     Future.flatMap(v -> Future.run(()->String.toUpperCase(v))) |>
     Future.flatMap(v -> Future.run(()->"${v} using flatMap operator for composition")) |>

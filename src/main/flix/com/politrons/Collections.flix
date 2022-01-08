@@ -23,7 +23,7 @@ def listFeatures():String=
 // To create a new one.
 // To delete an element of the map we just need to use Map.remove
 def mapFeatures(key:Int):String=
-    let m = Map#{1 -> "Hello", 2 -> "Map", 3 -> "World"};
+    let m = Map#{1 => "Hello", 2 => "Map", 3 => "World"};
     let newMap = Map.insert(4, "!!!", m);
     let deleteMap = Map.remove(4, newMap);
      match Map.get(key, deleteMap) {

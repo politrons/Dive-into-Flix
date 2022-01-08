@@ -36,7 +36,7 @@ def resultMonad():Unit & Impure=
 def resultErrMonad():Unit & Impure=
     let resultValue = Err("Error Channel");
     match resultValue {
-        case Ok(value) => println(value)
+        case Ok(_) => println("Success")
         case Err(cause) => println(cause)
     }
 
